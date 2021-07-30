@@ -2,10 +2,11 @@
 // use serde::Deserialize;
 use std::collections::HashMap;
 
-struct DataServiceRequestOpts<'a> {
+struct ServiceRequestOpts<'a> {
     token: &'a str,
     method: reqwest::Method,
     body: &'a str,
+    headers: reqwest::header::HeaderMap,
 }
 /*
 A constant variables for the purpose of calling a designated API.
@@ -52,17 +53,30 @@ fn main() {
     };
     let service = setup(config);
     // request options incoming from API
-    let options = DataServiceRequestOpts {
+    let mut headers = reqwest::header::HeaderMap::new();
+    headers.insert(
+        reqwest::header::USER_AGENT,
+        reqwest::header::HeaderValue::from_str("My Rust Program 1.0").unwrap(),
+    );
+    let options = ServiceRequestOpts {
         token: "mLghicY9MM",
         method: reqwest::Method::GET,
         body: "lorem ipsum",
+        headers,
     };
 
     let res = match request(&service, &options) {
         Ok(r) => r,
         Err(e) => return println!("Error requesting data: {:?}", e),
     };
-    let r = ServiceResponse { res };
+    let response = match res {
+        Some(r) => r,
+        None => panic!(
+            "this REST method is not supported: {:?}",
+            options.method.as_str()
+        ),
+    };
+    let r = ServiceResponse { res: response };
     let body = r.strip();
     println!("{:?}", body)
 }
@@ -76,8 +90,31 @@ fn setup(config: ServiceConfig) -> Service {
 #[tokio::main]
 async fn request(
     service: &Service,
-    _options: &DataServiceRequestOpts,
-) -> Result<reqwest::Response, Box<dyn std::error::Error>> {
-    let res = service.client.get(service.root_url).send().await?;
-    Ok(res)
+    options: &ServiceRequestOpts,
+) -> Result<Option<reqwest::Response>, Box<dyn std::error::Error>> {
+    match options.method.as_str() {
+        "GET" => {
+            // clone is bad (?)
+            let res = service
+                .client
+                .get(service.root_url)
+                .headers(options.headers.clone())
+                .bearer_auth(options.token)
+                .send()
+                .await?;
+            Ok(Some(res))
+        }
+        "POST" => {
+            let res = service
+                .client
+                .post(service.root_url)
+                .headers(options.headers.clone())
+                .body(options.body.to_string())
+                .bearer_auth(options.token)
+                .send()
+                .await?;
+            Ok(Some(res))
+        }
+        _ => Ok(None),
+    }
 }
