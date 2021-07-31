@@ -15,7 +15,7 @@ Since this is to be a service I decided to structure it as a library and develop
 #### Assumptions
 -   I developed a ``strip`` function that extracts the request body into a json hashmap with generic values. To me, this is standardized, but other functions could be added to support text extraction, or some other requirements.
 -   REST methods supported include ``GET`` and ``POST``. I kept it to the two most used methods as this was not specified further, but other methods could be added here.
--   Testing for instantiation and conversion is implicit in the function, otherwise they would throw an error. For example, if a function instantiates a new struct, the fact that it succeeds is a successfull test in itself.
+-   Testing for instantiation and conversion is implicit in the function, otherwise they would throw an error. For example, if a function instantiates a new struct, the fact that it succeeds is a test in itself.
 
 #### TODO
 -   Test ``request`` function
