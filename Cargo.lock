@@ -405,7 +405,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ntx-ventures"
+name = "ntx_ventures"
 version = "0.1.0"
 dependencies = [
  "reqwest",
