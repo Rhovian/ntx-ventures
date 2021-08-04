@@ -15,7 +15,7 @@ pub struct ServiceConfig<'a> {
 }
 
 pub struct Service<'a> {
-    root_url: &'a str,
+    pub root_url: &'a str,
     pub client: reqwest::Client,
 }
 // An async reqwest Http client that will be used for making all calls

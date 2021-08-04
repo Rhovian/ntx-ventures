@@ -18,10 +18,11 @@ async fn setup_returns_service() -> Result<(), Box<dyn std::error::Error>> {
     // test client works correctly
     let res = result
         .client
-        .get("https://random-data-api.com/api/beer/random_beer")
+        .get(result.root_url)
         .send()
         .await?;
     // 200 status code
+    
     assert!(res.status().is_success());
     // ServiceResponse struct is now instantiated
     let r = ntx_ventures::ServiceResponse { res };
@@ -30,8 +31,7 @@ async fn setup_returns_service() -> Result<(), Box<dyn std::error::Error>> {
         // unpack response body into a hashmap of <String, T>
         r.strip();
     })
-    .await
-    .expect("Task panicked");
+    .await;
 
     Ok(())
 }
