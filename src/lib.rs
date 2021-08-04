@@ -55,7 +55,7 @@ pub fn setup(config: ServiceConfig) -> Service {
 pub async fn request(
     service: &Service,
     options: &ServiceRequestOpts,
-) -> Result<Option<reqwest::Response>, Box<dyn std::error::Error>> {
+) -> Result<reqwest::Response, Box<dyn std::error::Error>> {
     match options.method.as_str() {
         "GET" => {
             // clone is bad (?)
@@ -66,7 +66,7 @@ pub async fn request(
                 .bearer_auth(options.token)
                 .send()
                 .await?;
-            Ok(Some(res))
+            Ok(res)
         }
         "POST" => {
             let res = service
@@ -77,8 +77,8 @@ pub async fn request(
                 .bearer_auth(options.token)
                 .send()
                 .await?;
-            Ok(Some(res))
+            Ok(res)
         }
-        _ => Ok(None),
+        _ => Err("REST method not supported".into()),
     }
 }

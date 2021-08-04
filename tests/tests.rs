@@ -16,13 +16,9 @@ async fn setup_returns_service() -> Result<(), Box<dyn std::error::Error>> {
     // client instantiated succesfully
     let result = ntx_ventures::setup(config);
     // test client works correctly
-    let res = result
-        .client
-        .get(result.root_url)
-        .send()
-        .await?;
+    let res = result.client.get(result.root_url).send().await?;
     // 200 status code
-    
+
     assert!(res.status().is_success());
     // ServiceResponse struct is now instantiated
     let r = ntx_ventures::ServiceResponse { res };
