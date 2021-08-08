@@ -8,6 +8,9 @@ name = "ntx_ventures"
 path = "src/lib.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[env]
+DATABASE_URL = "mysql://root:example@localhost/test"
+
 [dependencies]
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
