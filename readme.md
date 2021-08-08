@@ -1,7 +1,21 @@
-# NTX-Ventures - REST Service
+# NTX-Ventures - REST Service & DB Service
 Rust service to call a REST API 
 
-## Requirements 
+## DB Service Requirements
+-   Provide a setup function to establish a connection with credentials.
+-   Hold a persistent connection to db.
+-   Provide a query function for sending raw queries to db.
+-   Provide tests for testing query function for SELECT, ADD, UPDATE, and DELETE functionality.
+-   Run setup tests to verify that
+-   connection has been successfully setup
+-   Insert function is working
+-   Read function is working
+-   Delete function is working
+
+### Implementation
+``docker-compose`` is used to spin up a MYSQL instance and populate a static database for testing. There is a setup function that returns a pooled, asynchronous connection. There are two functions ``query`` and ``select`` query used to handle any raw query type. Environment variables via ``dotenv`` are used to house the database url that contains default credentials from the docker image.
+
+## REST Requirements 
 -   A constant variables for the purpose of calling a designated API
 -   An async reqwest Http client that will be used for making all calls.
 -   A setup function that accepts a config object, creates the reqwest::Client instance, and returns the service as a struct.

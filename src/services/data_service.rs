@@ -1,10 +1,12 @@
+use reqwest::header;
 use std::collections::HashMap;
+use std::error::Error;
 
 pub struct ServiceRequestOpts<'a> {
     token: &'a str,
     method: reqwest::Method,
     body: &'a str,
-    headers: reqwest::header::HeaderMap,
+    headers: header::HeaderMap,
 }
 /*
 A constant variables for the purpose of calling a designated API.
@@ -34,9 +36,7 @@ pub struct ServiceResponse {
 // A standardized way to strip out and return the body of response in a way that can be easily converted to a custom data object.
 impl ServiceResponse {
     #[tokio::main]
-    pub async fn strip(
-        self,
-    ) -> Result<HashMap<String, serde_json::Value>, Box<dyn std::error::Error>> {
+    pub async fn strip(self) -> Result<HashMap<String, serde_json::Value>, Box<dyn Error>> {
         let text = self
             .res
             .json::<HashMap<String, serde_json::Value>>()
@@ -55,7 +55,7 @@ pub fn setup(config: ServiceConfig) -> Service {
 pub async fn request(
     service: &Service,
     options: &ServiceRequestOpts,
-) -> Result<reqwest::Response, Box<dyn std::error::Error>> {
+) -> Result<reqwest::Response, Box<dyn Error>> {
     match options.method.as_str() {
         "GET" => {
             // clone is bad (?)
