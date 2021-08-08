@@ -1,5 +1,5 @@
 # NTX-Ventures - REST Service & DB Service
-Rust service to call a REST API 
+Library crate housing both the REST client service and MySQL client service.
 
 ## DB Service Requirements
 -   Provide a setup function to establish a connection with credentials.
