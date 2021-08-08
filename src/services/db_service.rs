@@ -19,8 +19,11 @@ pub async fn setup() -> Result<MySqlPool, Box<dyn std::error::Error>> {
     let pool = MySqlPool::connect(&env::var("DATABASE_URL")?).await?;
     Ok(pool)
 }
-
-pub async fn query(pool: MySqlPool, query: &str) -> Result<MySqlQueryResult, Box<dyn std::error::Error>> {
+// Provide a query function for sending raw queries to db.
+pub async fn query(
+    pool: MySqlPool,
+    query: &str,
+) -> Result<MySqlQueryResult, Box<dyn std::error::Error>> {
     let result = sqlx::query(query).execute(&pool).await?;
     Ok(result)
 }
