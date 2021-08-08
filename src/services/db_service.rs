@@ -9,4 +9,12 @@ Insert function is working
 Read function is working
 Delete function is working
 */
-pub mod db_service {}
+
+use sqlx::mysql::MySqlPool;
+use std::env;
+
+// Provide a setup function to establish a connection with credentials.
+pub async fn setup() -> Result<MySqlPool, Box<dyn std::error::Error>> {
+    let pool = MySqlPool::connect(&env::var("DATABASE_URL")?).await?;
+    Ok(pool)
+}
