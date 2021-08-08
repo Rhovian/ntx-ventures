@@ -14,6 +14,9 @@ use sqlx::mysql::MySqlPool;
 use sqlx::mysql::MySqlQueryResult;
 use std::env;
 
+// mysql://user:pass@host/database
+env::set_var("DATABASE_URL", "mysql://root:example@localhost/test");
+
 // Provide a setup function to establish a connection with credentials.
 pub async fn setup() -> Result<MySqlPool, Box<dyn std::error::Error>> {
     let pool = MySqlPool::connect(&env::var("DATABASE_URL")?).await?;
