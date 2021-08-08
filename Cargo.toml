@@ -8,12 +8,11 @@ name = "ntx_ventures"
 path = "src/lib.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[env]
-DATABASE_URL = "mysql://root:example@localhost/test"
-
 [dependencies]
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "mysql" ] }
+dotenv = "0.15.0"
+futures = "0.3"

@@ -699,6 +699,8 @@ dependencies = [
 name = "ntx_ventures"
 version = "0.1.0"
 dependencies = [
+ "dotenv",
+ "futures",
  "reqwest",
  "serde",
  "serde_json",
